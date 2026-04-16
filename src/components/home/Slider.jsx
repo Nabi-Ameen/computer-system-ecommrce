@@ -1,11 +1,10 @@
 import React from 'react'
 import Typography from '../common/Typography'
 
-const Slider = ({ children }) => {
+const Slider = () => {
     return (
         <div>
-            {children}
-            {/* <Typography varient="small">Gaming Pc Complete Setup</Typography> */}
+            <Typography varient="h1">Gaming Pc Complete Setup</Typography>
         </div>
     )
 }
