@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Typography = ({ varient, children }) => {
+const Typography = ({ varient, effect, children, style }) => {
 
     const tagVarient = {
         h1: "h1",
@@ -12,6 +12,12 @@ const Typography = ({ varient, children }) => {
         p: "p",
         small: "small"
     }
+
+    const effectStyle = {
+        muted: "text-gray-400"
+    }
+
+
 
     const tagStyle = {
         h1: "text-18 md:text-[30px] lg:text-[45px]",
@@ -27,7 +33,7 @@ const Typography = ({ varient, children }) => {
 
     const Tag = tagVarient[varient]
     return (
-        <Tag className={`${tagStyle[varient]}`}>{children}</Tag>
+        <Tag className={`${tagStyle[varient]} ${effectStyle[effect]} ${style}`}>{children}</Tag>
     )
 }
 
