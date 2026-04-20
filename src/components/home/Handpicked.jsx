@@ -12,7 +12,7 @@ const Handpicked = () => {
                             <img src={product.image} alt={product.title} />
                             <Typography varient="small" >{product.category}</Typography>
                             <Typography varient="h6" >{product.category}</Typography>
-                            <Typography varient="h3" style="text-[#2196F3] font-semibold absolute top-4 left-4" >{`${product.currency} ${product.price}`}</Typography>
+                            <Typography varient="h3" style="text-primary font-semibold absolute top-4 left-4" >{`${product.currency} ${product.price}`}</Typography>
                         </div>
                     )
                 })

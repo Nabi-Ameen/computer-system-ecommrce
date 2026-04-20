@@ -17,8 +17,6 @@ const Typography = ({ varient, effect, children, style }) => {
         muted: "text-gray-400"
     }
 
-
-
     const tagStyle = {
         h1: "text-18 md:text-[30px] lg:text-[45px]",
         h2: "text-16 md:text-[26px] lg:text-[40px]",
