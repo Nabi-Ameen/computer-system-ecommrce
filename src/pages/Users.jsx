@@ -101,6 +101,12 @@ const Users = () => {
                                     </div>
 
                                     <div>
+                                        <label htmlFor="image" className='text-lg'>Image</label>
+                                        <InputField value={values?.firstName} onchange={handleChange} name="image" type="file" />
+                                        <ErrorMessage name="image" />
+                                    </div>
+
+                                    <div>
                                         <label htmlFor="lastName" className='text-lg'>Last Name</label>
                                         <InputField value={values?.lastName} onchange={handleChange} name="lastName" type="text" />
                                         <ErrorMessage name="lastName" />
