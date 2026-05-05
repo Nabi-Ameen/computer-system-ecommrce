@@ -4,6 +4,7 @@ import Store from "./pages/Store"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import SignupForm from "./pages/SignupForm"
+import Users from "./pages/Users"
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/store" element={<Store />} />
           <Route path="/sign-up" element={<SignupForm />} />
+          <Route path="/users" element={<Users />} />
         </Routes>
         <Footer />
       </BrowserRouter>
