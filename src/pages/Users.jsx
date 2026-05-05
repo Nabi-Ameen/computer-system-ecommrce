@@ -10,7 +10,10 @@ import Typography from '../components/common/Typography';
 
 const Users = () => {
     const [loader, setLoader] = useState(false);
-    const [users, setUsers] = useState()
+    const [users, setUsers] = useState([]);
+    const [sigleUser, setSingleUser] = useState({});
+
+    console.log("sigleUser", sigleUser)
 
     const getAllUsers = async () => {
         const response = await axios.get("http://localhost:9000/v1/users")
@@ -22,9 +25,20 @@ const Users = () => {
         getAllUsers()
     }
 
+    const getSigleUser = async (id) => {
+        const response = await axios.get(`http://localhost:9000/v1/user/${id}`)
+        setSingleUser(response?.data?.data)
+    }
+
+    const updateUser = async (id, values) => {
+        const response = await axios.put(`http://localhost:9000/v1/user/${id}`, values)
+        setSingleUser({})
+        getAllUsers()
+    }
+
     useEffect(() => {
         getAllUsers()
-    }, [])
+    }, [sigleUser])
 
 
 
@@ -40,11 +54,20 @@ const Users = () => {
             behavior: 'smooth'
         });
     }
+
+
+    const initialValues = {
+        firstName: sigleUser && sigleUser?.firstName || '',
+        lastName: sigleUser && sigleUser?.lastName || '',
+        email: sigleUser && sigleUser?.email || '',
+        password: ''
+    }
     return (
         <div>
 
             <Formik
-                initialValues={{ firstName: '', lastName: '', email: '', password: '' }}
+                enableReinitialize={true}
+                initialValues={initialValues}
                 validationSchema={Yup.object({
                     firstName: Yup.string()
                         .required('Required'),
@@ -53,43 +76,56 @@ const Users = () => {
                     email: Yup.string().email('Invalid email address').required('Required'),
                 })}
                 onSubmit={(values, { resetForm }) => {
-                    createUser(values)
+                    const updatedBody = values
+                    if (sigleUser?.id) {
+                        updateUser(sigleUser?.id, updatedBody)
+                    } else {
+                        createUser(values)
+                    }
                     resetForm();
                 }}
             >
-                <Form className='flex items-center justify-center my-10'>
-                    <div className='w-1/4 space-y-6'>
-                        <Typography varient="h3">Sign Up</Typography>
-                        <Typography varient="small">Upgrade your tech game with us!</Typography>
-                        <div>
-                            <label htmlFor="firstName" className='text-lg'>First Name</label>
-                            <InputField name="firstName" type="text" />
-                            <ErrorMessage name="firstName" />
-                        </div>
+                {
+                    ({ values, handleChange }) => {
 
-                        <div>
-                            <label htmlFor="lastName" className='text-lg'>Last Name</label>
-                            <InputField name="lastName" type="text" />
-                            <ErrorMessage name="lastName" />
-                        </div>
+                        // console.log("values", values)
+                        return (
+                            <Form className='flex items-center justify-center my-10'>
+                                <div className='w-1/4 space-y-6'>
+                                    <Typography varient="h3">Sign Up</Typography>
+                                    <Typography varient="small">Upgrade your tech game with us!</Typography>
+                                    <div>
+                                        <label htmlFor="firstName" className='text-lg'>First Name</label>
+                                        <InputField value={values?.firstName} onchange={handleChange} name="firstName" type="text" />
+                                        <ErrorMessage name="firstName" />
+                                    </div>
 
-                        <div>
-                            <label htmlFor="email" className='text-lg'>Email Address</label>
-                            <InputField name="email" type="email" />
-                            <ErrorMessage name="email" />
-                        </div>
+                                    <div>
+                                        <label htmlFor="lastName" className='text-lg'>Last Name</label>
+                                        <InputField value={values?.lastName} onchange={handleChange} name="lastName" type="text" />
+                                        <ErrorMessage name="lastName" />
+                                    </div>
 
-                        <div>
-                            <label htmlFor="password" className='text-lg'>Password</label>
-                            <InputField name="password" type="password" />
-                            <ErrorMessage name="password" />
-                        </div>
+                                    <div>
+                                        <label htmlFor="email" className='text-lg'>Email Address</label>
+                                        <InputField value={values?.email} onchange={handleChange} name="email" type="email" />
+                                        <ErrorMessage name="email" />
+                                    </div>
 
-                        <button type="submit" className='bg-blue-800 py-6 px-16 rounded-lg text-white'>{loader ? "saving..." : "Submit"}</button>
+                                    {!sigleUser?.id && <div>
+                                        <label htmlFor="password" className='text-lg'>Password</label>
+                                        <InputField name="password" onchange={handleChange} type="password" />
+                                        <ErrorMessage name="password" />
+                                    </div>}
 
-                    </div>
+                                    <button type="submit" className='bg-blue-800 py-6 px-16 rounded-lg text-white'>{loader ? "saving..." : sigleUser?.id ? "Update" : "Submit"}</button>
 
-                </Form>
+                                </div>
+
+                            </Form>
+                        )
+                    }
+                }
             </Formik>
 
             <table class="w-full my-20 border">
@@ -114,7 +150,7 @@ const Users = () => {
                                     <td>{user?.email}</td>
                                     <td>{user?.role}</td>
                                     <td className='flex items-center gap-4 my-2'>
-                                        <div className='p-2 bg-green-800 text-white rounded-md cursor-pointer'>
+                                        <div onClick={() => getSigleUser(user?.id)} className='p-2 bg-green-800 text-white rounded-md cursor-pointer'>
                                             <MdModeEdit size={18} />
                                         </div>
                                         <div onClick={() => deleteUser(user?.id)} className='p-2 bg-red-800 text-white rounded-md cursor-pointer'>
