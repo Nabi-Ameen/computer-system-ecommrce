@@ -1,4 +1,5 @@
 import img1 from "../images/home/pngwing.com.png";
+import { BiSolidCategoryAlt } from "react-icons/bi";
 
 export const products = [
   {

@@ -36,7 +36,7 @@ export const menus = [
   },
   {
     id: 7,
-    pathName: "/users",
-    pathValue: "Users",
+    pathName: "/dashboard",
+    pathValue: "Dashboard",
   },
 ];
