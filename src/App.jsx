@@ -8,7 +8,6 @@ import Dashboard from "./pages/Dashboard"
 
 function App() {
   const location = useLocation()
-  console.log("locations", location)
   return (
     <div>
       {
